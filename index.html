@@ -163,6 +163,7 @@
 
       /* ---------- sections ---------- */
       section.block{padding:76px 0}
+      section[id]{scroll-margin-top:84px}
       section.block.alt{background:var(--bg-2);border-block:1px solid var(--line)}
       .sec-head{max-width:44rem;margin-bottom:38px}
       .sec-head h2{font-size:clamp(1.8rem,4vw,2.5rem);font-weight:800}
@@ -363,12 +364,12 @@
       .fund-contact-wrap{margin-top:8px}
       .btn-big{font-size:1.12rem;padding:18px 34px}
 
-      .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease,transform .6s ease}
-      .reveal.in{opacity:1;transform:none}
+      /* Sections are always visible — content is never hidden waiting on a
+         scroll trigger, so "How it works" and every other section render
+         in full whether or not the reader scrolls, and with or without JS. */
       @media (prefers-reduced-motion: reduce){
         *,*::before,*::after{animation-duration:.001s !important;transition-duration:.001s !important}
         html{scroll-behavior:auto}
-        .reveal{opacity:1;transform:none}
       }
     </style>
   </head>
@@ -591,7 +592,7 @@
                 <li><i data-lucide="check-circle-2"></i> No subscription and no app required to use it</li>
               </ul>
             </article>
-            <article class="fund-card" id="funding">
+            <article class="fund-card" id="funding-card">
               <h3><i data-lucide="sprout"></i> Braillet still needs funding</h3>
               <p>Braillet works as an idea and a design — <strong>now it needs to become a real, physical device.</strong> Funding is needed to take the next steps:</p>
               <ul class="fund-list">
@@ -983,17 +984,6 @@
         } else fallback();
       });
 
-      /* ---------- scroll reveal ---------- */
-      if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var io = new IntersectionObserver(function (entries) {
-          entries.forEach(function (en) {
-            if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
-          });
-        }, { threshold: 0.12 });
-        document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-      } else {
-        document.querySelectorAll('.reveal').forEach(function (el) { el.classList.add('in'); });
-      }
     </script>
   </body>
 </html>
